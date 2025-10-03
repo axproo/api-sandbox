@@ -6,7 +6,7 @@ on:
 
 jobs:
     deploy:
-        runs-on: debian-latest
+        runs-on: ubuntu-latest
 
         steps:
             - name: Checkout repository
@@ -23,4 +23,4 @@ jobs:
                 password: ${{ secrets.FTP_PASSWORD }}
                 port: ${{secrets.FTP_PORT}}
                 local-dir: ./   # dossiers à uploader (backend)
-                server-dir: /public_html/api/   # répertoire cible sur ton cPanel
+                server-dir: /api/sandbox/v2   # répertoire cible sur ton cPanel

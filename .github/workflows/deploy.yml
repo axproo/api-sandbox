@@ -1,26 +1,30 @@
-name: Deploy Backend (cPanel FTP)
+name: 🚀 Deploy to cPanel via FTP
 
 on:
-    push:
-        branches: ["main"]
+  push:
+    branches:
+      - main   # Déploie uniquement quand on push sur la branche main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
 
-            - name: Install dependencies
-              uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-
-            - name: Deploy to cPanel via FTP
-              uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-              with:
-                server: ${{ secrets.FTP_SERVER }}
-                username: ${{ secrets.FTP_USERNAME }}
-                password: ${{ secrets.FTP_PASSWORD }}
-                port: ${{secrets.FTP_PORT}}
-                local-dir: ./   # dossiers à uploader (backend)
-                server-dir: /api/sandbox/v2   # répertoire cible sur ton cPanel
+      - name: 🚀 Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/   # Dossier distant cPanel (souvent public_html)
+          local-dir: ./               # Dossier local à déployer
+          method: ftp
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/**
+            **/tests/**
+            **/.env

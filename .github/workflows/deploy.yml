@@ -19,9 +19,9 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /api/sandbox/v2   # Dossier distant cPanel (souvent public_html)
+          server-dir: /api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
           local-dir: ./               # Dossier local à déployer
-          method: ftp
+          protocol: sftp
           exclude: |
             **/.git*
             **/.github*

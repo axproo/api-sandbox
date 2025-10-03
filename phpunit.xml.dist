@@ -23,7 +23,7 @@
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="App">
+        <testsuite name="Axproo Backend Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

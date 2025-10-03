@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🚀 Deploy to FTP
+      - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/   # Dossier distant cPanel (souvent public_html)
+          server-dir: /api/sandbox/v2   # Dossier distant cPanel (souvent public_html)
           local-dir: ./               # Dossier local à déployer
           method: ftp
           exclude: |

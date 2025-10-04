@@ -26,9 +26,3 @@ jobs:
           protocol: sftp
           rm: true
           debug: true
-          exclude: |
-            **/.git*
-            **/.github*
-            **/node_modules/**
-            **/tests/**
-            **/public

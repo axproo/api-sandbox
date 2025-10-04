@@ -123,7 +123,7 @@ git checkout main
 git pull --rebase origin main
 ```
 - Si des conflits apparaissent :
-##### 1. Résoudre les conflits dans l’éditeur.
+    ##### 1. Résoudre les conflits dans l’éditeur.
 ##### 2. Ajouter les fichiers résolus :
 
 ```bash

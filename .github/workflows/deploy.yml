@@ -23,5 +23,5 @@ jobs:
           key: ${{ secrets.SFTP_PRIVATE_KEY }}
           target: /home/axproo/api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
           source: ./               # Dossier local à déployer
-          rm: false
+          rm: true
           debug: true

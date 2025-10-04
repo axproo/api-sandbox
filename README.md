@@ -123,14 +123,14 @@ git checkout main
 git pull --rebase origin main
 ```
 - Si des conflits apparaissent :
-    1. Résoudre les conflits dans l’éditeur.
-    2. Ajouter les fichiers résolus :
+    - Résoudre les conflits dans l’éditeur.
+    - Ajouter les fichiers résolus :
 
 ```bash
 git add <fichier_conflit>
 ```
 
-    3. Continuer le rebase :
+- Continuer le rebase :
 ```bash
 git rebase --continue
 ```

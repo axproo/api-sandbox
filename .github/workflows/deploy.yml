@@ -30,4 +30,4 @@ jobs:
             **/.github*
             **/node_modules/**
             **/tests/**
-            **/.env
+            **/public

@@ -8,6 +8,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Cors implements FilterInterface
 {
+    protected $allowOrigin = [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        // 'https://sandbox-api.axproo.fr',
+        // 'https://dashboard.axproo.fr'
+    ];
+
     /**
      * Do whatever processing this filter needs to do.
      * By default it should not return anything during
@@ -25,7 +32,20 @@ class Cors implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        $response = service('response');
+        $origin = $request->getServer('HTTP_ORIGIN');
+
+        if ($origin && in_array($origin, $this->allowOrigin)) {
+            $this->addCorsHeaders($response, $origin);
+        }
+
+        if ($request->getMethod() === 'OPTIONS') {
+            if ($origin && in_array($origin, $this->allowOrigin)) {
+                $this->addCorsHeaders($response, $origin);
+            }
+            $response->setHeader('Access-Control-Max-Age', '86400');
+            return $response->setStatusCode(ResponseInterface::HTTP_OK);
+        }
     }
 
     /**
@@ -42,6 +62,17 @@ class Cors implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        $origin = $request->getServer('HTTP_ORIGIN');
+        if ($origin && in_array($origin, $this->allowOrigin)) {
+            $this->addCorsHeaders($response, $origin);
+        }
+    }
+
+    private function addCorsHeaders(ResponseInterface $response, string $origin) {
+        // Ajout des entêtes CORS
+        $response->setHeader('Access-Control-Allow-Origin', $origin); // Remplacer * par votre nom de domaine
+        $response->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        $response->setHeader('Access-Control-Allow-Headers', 'X-API-KEY, Origin,X-Requested-With, Content-Type, Accept, Access-Control-Requested-Method, Authorization, X-Auth-Token');
+        $response->setHeader('Access-Control-Allow-Credentials', 'true');
     }
 }

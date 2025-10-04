@@ -124,17 +124,17 @@ git pull --rebase origin main
 ```
 - Si des conflits apparaissent :
     ##### 1. Résoudre les conflits dans l’éditeur.
-##### 2. Ajouter les fichiers résolus :
+    ##### 2. Ajouter les fichiers résolus :
 
 ```bash
 git add <fichier_conflit>
 ```
 
-##### 3. Continuer le rebase :
+    ##### 3. Continuer le rebase :
 ```bash
 git rebase --continue
 ```
-##### 4. Pour annuler le rebase si nécessaire :
+    ##### 4. Pour annuler le rebase si nécessaire :
 ```bash
 git rebase --abort
 ```

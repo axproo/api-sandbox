@@ -23,6 +23,5 @@ jobs:
           key: ${{ secrets.SFTP_PRIVATE_KEY }}
           target: /api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
           source: ./               # Dossier local à déployer
-          protocol: sftp
           rm: true
           debug: true

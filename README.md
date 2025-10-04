@@ -123,29 +123,29 @@ git checkout main
 git pull --rebase origin main
 ```
 - Si des conflits apparaissent :
-    - Résoudre les conflits dans l’éditeur.
-    - Ajouter les fichiers résolus :
+##### 1. Résoudre les conflits dans l’éditeur.
+##### 2. Ajouter les fichiers résolus :
 
 ```bash
 git add <fichier_conflit>
 ```
 
-    - Continuer le rebase :
+##### 3. Continuer le rebase :
 ```bash
 git rebase --continue
 ```
-    - Pour annuler le rebase si nécessaire :
+##### 4. Pour annuler le rebase si nécessaire :
 ```bash
 git rebase --abort
 ```
 
-#### Vérifier l’état du dépôt
+#### 3. Vérifier l’état du dépôt
 ```bash
 git status
 git log --oneline --graph --all
 ```
 
-#### Pousser les modifications locales sur le remote
+#### 4. Pousser les modifications locales sur le remote
 ```bash
 git push origin main
 ```

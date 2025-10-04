@@ -12,7 +12,7 @@ class Cors implements FilterInterface
         'http://localhost:5173',
         'http://localhost:5174',
         // 'https://sandbox-api.axproo.fr',
-        // 'https://dashboard.axproo.fr'
+        'https://dashboard.axproo.fr'
     ];
 
     /**

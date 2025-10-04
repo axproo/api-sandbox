@@ -99,6 +99,7 @@ git checkout -b feature/nom-fonctionnalite
 
 2. Commit clair et concis
 ```bash
+git add feature/nom-fonctionnalite
 git commit -m "feat(auth): ajout du login API"
 ```
 
@@ -108,6 +109,33 @@ git push origin feature/nom-fonctionnalite
 ```
 
 4. Ouvrir une Pull Request (PR) pour merge vers main.
+```bash
+git checkout library/cors
+git add .
+git commit -m "Ajout de la gestion filter (cors, auth...)"
+git push origin library/cors
+```
+### Ouvrir la Pull Request
+- Sur GitHub (ou GitLab) → ton repo.
+- Cliquer sur la bannière : “Compare & Pull Request”.
+- Vérifie que ta branche library/cors est bien la source (base: main ← compare: library/cors).
+
+### Rédige ta PR
+- Titre clair :
+    Ajout de la gestion de filter ou library
+- Description : explique ce qui a été ajouté, modifié, testé.
+
+### Créer la PR
+Clique sur Create Pull Request.
+
+### Revue & Merge
+- Tes reviewers (ou toi-même si tu bosses seul) valident.
+- Quand tout est OK → clique sur Merge Pull Request puis Confirm merge.
+- Enfin, supprime ta branche si elle n’est plus utile :
+```bash
+git branch -d library/cors
+git push origin --delete library/cors
+```
 
 ## Objectif de ce projet
 Construire une API backend fiable et sécurisée pour l’écosystème Axproo, avec un workflow moderne :

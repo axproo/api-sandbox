@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Composer dependencies
-        run: |
-            cd /home/axproo/api/sandbox/v2/
-            composer install --no-dev --optimize-autoloader
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy to FTP
+      - name: Install Composer dependencies
+        run: |
+            composer install --no-dev --optimize-autoloader
+
+      - name: Deploy to SFTP
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.FTP_SERVER }}

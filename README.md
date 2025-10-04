@@ -109,32 +109,30 @@ git push origin feature/nom-fonctionnalite
 ```
 
 4. Ouvrir une Pull Request (PR) pour merge vers main.
+### Procédure Git pour mettre à jour `main` et créer une PR
+
+Cette procédure garantit que votre branche locale est synchronisée avec le remote avant de créer une Pull Request (PR).
+
+#### 1. Se placer sur la branche `main`
 ```bash
-git checkout library/cors
-git add .
-git commit -m "Ajout de la gestion filter (cors, auth...)"
-git push origin library/cors
+git checkout main
 ```
-### Ouvrir la Pull Request
-- Sur GitHub (ou GitLab) → ton repo.
-- Cliquer sur la bannière : “Compare & Pull Request”.
-- Vérifie que ta branche library/cors est bien la source (base: main ← compare: library/cors).
 
-### Rédige ta PR
-- Titre clair :
-    Ajout de la gestion de filter ou library
-- Description : explique ce qui a été ajouté, modifié, testé.
-
-### Créer la PR
-Clique sur Create Pull Request.
-
-### Revue & Merge
-- Tes reviewers (ou toi-même si tu bosses seul) valident.
-- Quand tout est OK → clique sur Merge Pull Request puis Confirm merge.
-- Enfin, supprime ta branche si elle n’est plus utile :
+#### 2. Mettre à jour main depuis le remote avec rebase
 ```bash
-git branch -d library/cors
-git push origin --delete library/cors
+git pull --rebase origin main
+```
+- Si des conflits apparaissent :
+    1. Résoudre les conflits dans l’éditeur.
+    2. Ajouter les fichiers résolus :
+
+```bash
+git add <fichier_conflit>
+```
+
+    3. Continuer le rebase :
+```bash
+git rebase --continue
 ```
 
 ## Objectif de ce projet

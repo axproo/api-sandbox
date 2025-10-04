@@ -28,4 +28,22 @@ jobs:
           target: /home/axproo/api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
           source: ./               # Dossier local à déployer
           rm: false
+          overwrite: true
           debug: true
+          exclude: |
+            **/.git*
+            **/.github*
+            **/tests**
+            **/.env
+
+      - name: Run CI4 Migrations
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          key: ${{ secrets.SFTP_PRIVATE_KEY }}
+          script: |
+            cd /home/axproo/api/sandbox/v2/
+            php spark migrate --all

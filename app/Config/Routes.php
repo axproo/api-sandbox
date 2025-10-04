@@ -7,9 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('home', 'Home::index');
-// $routes->get('login', 'Auth/login::index');
+$routes->get('login', 'Auth\Login::index');
+$routes->post('login', 'Auth\Login::signin');
 
-// $routes->group('', ['hostname' => '(:segment).axproo.fr'], function($routes) {
-//     // Routes statiques communes
-
-// });

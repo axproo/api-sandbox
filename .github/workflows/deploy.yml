@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          target: /api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
+          target: /home/axproo/api/sandbox/v2/   # Dossier distant cPanel (souvent public_html)
           source: ./               # Dossier local à déployer
-          rm: true
+          rm: false
           debug: true

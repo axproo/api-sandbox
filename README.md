@@ -130,9 +130,38 @@ git pull --rebase origin main
 git add <fichier_conflit>
 ```
 
-- Continuer le rebase :
+    - Continuer le rebase :
 ```bash
 git rebase --continue
+```
+    - Pour annuler le rebase si nécessaire :
+```bash
+git rebase --abort
+```
+
+#### Vérifier l’état du dépôt
+```bash
+git status
+git log --oneline --graph --all
+```
+
+#### Pousser les modifications locales sur le remote
+```bash
+git push origin main
+```
+
+#### Créer la Pull Request (PR)
+1. Pousser votre branche de fonctionnalité si ce n’est pas déjà fait :
+```bash
+git push origin feature/ma-branche
+```
+
+2. Sur GitHub (ou GitLab) : créer une PR de feature/ma-branche → main.
+
+### Astuce
+Pour ne plus avoir à préciser --rebase à chaque git pull :
+```bash
+git config --global pull.rebase true
 ```
 
 ## Objectif de ce projet

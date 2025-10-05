@@ -20,6 +20,17 @@ use CodeIgniter\Config\BaseService;
 class Services extends BaseService
 {
 
+    public static function alertService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('alertService');
+        }
+
+        $request = service('request');
+        return new \App\Services\AlertService($request);
+    }
+
+
     public static function buttonService(bool $getShared = true)
     {
         if ($getShared) {

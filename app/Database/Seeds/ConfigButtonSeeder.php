@@ -170,7 +170,7 @@ class ConfigButtonSeeder extends Seeder
                 'action' => 'lang',
                 'lang'   => 'btnLang',
                 'is_auth' => false,
-                'value'  => 'en,fr'
+                'value'  => 'fr,en'
             ],
         ];
         $builder = $this->db->table('config_buttons');

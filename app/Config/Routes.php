@@ -16,6 +16,7 @@ $routes->get('code', 'Auth\Otp::code');
 
 $routes->group('ui', function ($routes) {
     $routes->get('buttons', 'Ui\Buttons::index');
+    $routes->get('alerts', 'Ui\Alerts::index');
 });
 
 // Gérer toutes les requêtes OPTIONS pour CORS

@@ -21,7 +21,8 @@ class Login extends ResourceController
      */
     public function index()
     {
-        return apiResponse(200, 'Login page', []);
+        FormStatic::$url = '/login';
+        return $this->auth->new(['email','password']);
     }
     
     public function signin() {

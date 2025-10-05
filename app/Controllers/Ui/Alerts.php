@@ -5,12 +5,12 @@ namespace App\Controllers\Ui;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class Buttons extends ResourceController
+class Alerts extends ResourceController
 {
-    protected $buttons;
+    protected $alerts;
 
     public function __construct() {
-        $this->buttons = service('buttonService');
+        $this->alerts = service('alertService');
     }
 
     /**
@@ -20,7 +20,7 @@ class Buttons extends ResourceController
      */
     public function index()
     {
-        return $this->buttons->getListForApi();
+        return $this->alerts->getListForAlert();
     }
 
     /**

@@ -114,7 +114,8 @@ class Filters extends BaseFilters
         'authFilter' => [
             'before' => [
                 '/',
-                'home'
+                'home',
+                'account/*'
             ]
         ]
     ];

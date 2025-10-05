@@ -10,6 +10,6 @@ return [
         'password' => [
             'required' => 'Mot de passe obligatoire',
             'length' => 'Email ou mot de passe incorrect'
-        ]
+        ],
     ]
 ];

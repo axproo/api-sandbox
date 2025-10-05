@@ -20,6 +20,50 @@ use CodeIgniter\Config\BaseService;
 class Services extends BaseService
 {
 
+    public static function mailerService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('mailerService');
+        }
+
+        $request = service('request');
+        return new \App\Services\MailerService($request);
+    }
+
+
+    public static function otpService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('otpService');
+        }
+
+        $request = service('request');
+        return new \App\Services\OtpService($request);
+    }
+
+
+    public static function formTypeService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('formTypeService');
+        }
+
+        $request = service('request');
+        return new \App\Services\FormTypeService($request);
+    }
+
+
+    public static function userService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('userService');
+        }
+
+        $request = service('request');
+        return new \App\Services\UserService($request);
+    }
+
+
     public static function authService(bool $getShared = true)
     {
         if ($getShared) {

@@ -60,3 +60,5 @@ jobs:
             cd /home/axproo/api/sandbox/v2/
             php spark db:seed RuleSeeder
             php spark db:seed UserSeeder
+            php spark db:seed FormTypeSeeder
+            php spark db:seed FormStaticSeeder

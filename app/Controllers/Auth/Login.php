@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 
+use App\Libraries\FormStatic;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -25,5 +26,10 @@ class Login extends ResourceController
     
     public function signin() {
         return $this->auth->signin();
+    }
+
+    public function verify() {
+        FormStatic::$url = '/otp/generate';
+        return $this->auth->new(['email']);
     }
 }

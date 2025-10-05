@@ -43,7 +43,7 @@ class AuthFilter implements FilterInterface
 
         // Si le token n'existe pas, on retourne une erreur (token missing)
         if (!$token) {
-            return apiResponse(401, lang('Message.token.missing'));
+            return $this->unauthorizedResponse("Access denied! ".lang('Message.token.missing'));
         }
 
         // Si le token est mal formaté, on retourne une erreur (token format failed)
@@ -91,5 +91,9 @@ class AuthFilter implements FilterInterface
             return $matches[1];
         }
         return null;
+    }
+
+    private function unauthorizedResponse(string $message) : ResponseInterface {
+        return service('response')->setStatusCode(401)->setBody($message);
     }
 }

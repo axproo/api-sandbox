@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Libraries\FormCustomize;
 use CodeIgniter\HTTP\IncomingRequest;
 use Config\Validation;
 use Config\Services;
@@ -27,12 +28,37 @@ class AuthService
             return apiResponse(403, $this->validation->getErrors());
         }
 
-        // $user = $this->users->getUserByEmail($data->email);
+        // Vérifier l'utilisateur et recupérer ces données
+        $user = UserService::getUserByEmail($data->email);
+
+        // Vérifier le status de l'utilisateur
+        if ($user->status !== 'active') {
+            $message = $user->status === 'pending' ? 'Auth.failed.account.verify' : 'Auth.failed.account.inactivated';
+
+            return apiResponse(401, lang($message), [
+                'redirect'  => '/account-verify',
+                'url'       => '/account/verify'
+            ]);
+        }
 
         return apiResponse(200, 'Auth signin', [
             'data' => $data,
-            'validate' => $this->validate->auth
+            'email' => $user->status
         ]);
+    }
+
+    public function new(array $fields = [], array $overrides = []) {
+        $items = [];
+        foreach ($fields as $key) {
+            $items[$key] = $this->request->getVar($key);
+        }
+        if (!$items) {
+            throw new \Exception(lang('Message.forms.failed.field', [
+                'form' => uri_string()
+            ]));
+        }
+        FormCustomize::setItems($items);
+        return FormCustomize::render();
     }
 
     protected function get_data_from_post() {

@@ -81,6 +81,7 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
+            'cors',
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -99,7 +100,12 @@ class Filters extends BaseFilters
      *
      * @var array<string, list<string>>
      */
-    public array $methods = [];
+    public array $methods = [
+        'GET'       => [],
+        'POST'      => [],
+        'PUT'       => [],
+        'DELETE'    => []
+    ];
 
     /**
      * List of filter aliases that should run on any

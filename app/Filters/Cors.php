@@ -8,10 +8,8 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Cors implements FilterInterface
 {
-    protected $allowOrigin = [
+    protected $allowOrigins = [
         'http://localhost:5173',
-        'http://localhost:5174',
-        // 'https://sandbox-api.axproo.fr',
         'https://dashboard.axproo.fr'
     ];
 
@@ -35,16 +33,18 @@ class Cors implements FilterInterface
         $response = service('response');
         $origin = $request->getServer('HTTP_ORIGIN');
 
-        if ($origin && in_array($origin, $this->allowOrigin)) {
+        if ($origin && in_array($origin, $this->allowOrigins)) {
             $this->addCorsHeaders($response, $origin);
         }
 
         if ($request->getMethod() === 'OPTIONS') {
-            if ($origin && in_array($origin, $this->allowOrigin)) {
+            if ($origin && in_array($origin, $this->allowOrigins)) {
                 $this->addCorsHeaders($response, $origin);
             }
             $response->setHeader('Access-Control-Max-Age', '86400');
-            return $response->setStatusCode(ResponseInterface::HTTP_OK);
+            $response->setStatusCode(200);
+            $response->setBody('OK'); // 👈 évite que CI4 renvoie autre chose
+            return $response->send(); // 👈 force la réponse immédiate (important !)
         }
     }
 
@@ -63,7 +63,7 @@ class Cors implements FilterInterface
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         $origin = $request->getServer('HTTP_ORIGIN');
-        if ($origin && in_array($origin, $this->allowOrigin)) {
+        if ($origin && in_array($origin, $this->allowOrigins)) {
             $this->addCorsHeaders($response, $origin);
         }
     }

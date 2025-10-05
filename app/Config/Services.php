@@ -20,6 +20,17 @@ use CodeIgniter\Config\BaseService;
 class Services extends BaseService
 {
 
+    public static function buttonService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('buttonService');
+        }
+
+        $request = service('request');
+        return new \App\Services\ButtonService($request);
+    }
+
+
     public static function mailerService(bool $getShared = true)
     {
         if ($getShared) {

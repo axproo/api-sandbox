@@ -62,3 +62,4 @@ jobs:
             php spark db:seed UserSeeder
             php spark db:seed FormTypeSeeder
             php spark db:seed FormStaticSeeder
+            php spark db:seed ConfigButtonSeeder

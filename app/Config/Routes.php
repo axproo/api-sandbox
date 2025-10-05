@@ -14,7 +14,7 @@ $routes->get('verify', 'Auth\Login::verify');
 $routes->post('generate', 'Auth\Otp::generate');
 $routes->get('code', 'Auth\Otp::code');
 
-$routes->group('account', function ($routes) {
-    // $routes->get('verify', 'Account::verify');
+$routes->group('ui', function ($routes) {
+    $routes->get('buttons', 'Ui\Buttons::index');
 });
 

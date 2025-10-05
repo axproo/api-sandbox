@@ -16,7 +16,7 @@ class ConfigButtons extends Migration
             'icon'  => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'action' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'lang'  => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
-            'value' => ['type' => 'ENUM', 'constraint' => ['','0','1'], 'default' => ''],
+            'value' => ['type' => 'TEXT', 'null' => true],
             'is_active' => ['type' => 'BOOLEAN', 'default' => true],
             'is_auth' => ['type' => 'BOOLEAN', 'default' => true],
             'created_at timestamp default current_timestamp',

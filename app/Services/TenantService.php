@@ -37,7 +37,7 @@ class TenantService
         $tenant = $model
             ->where([
                 'uuid' => $uuid,
-                'status' => 'active'
+                'status' => 'active' 
             ])
             ->first();
         return $tenant;

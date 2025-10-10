@@ -14,6 +14,9 @@ use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 use App\Filters\Cors;
 use App\Filters\AuthFilter;
+use App\Filters\LangFilter;
+use App\Filters\RoleFilter;
+use App\Filters\TenantFilter;
 
 class Filters extends BaseFilters
 {
@@ -37,6 +40,9 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'authFilter'    => AuthFilter::class,
+        'langFilter'    => LangFilter::class,
+        'roleFilter'    => RoleFilter::class,
+        'tenantFilter'  => TenantFilter::class,
     ];
 
     /**
@@ -121,8 +127,21 @@ class Filters extends BaseFilters
             'before' => [
                 '/',
                 'home',
-                'account/*'
+                'ui/services',
+                'client/*'
+            ],
+        ],
+        'tenantFilter' => [
+            'before' => [
+                '/',
+                'home',
+                'client/*'
             ]
-        ]
+        ],
+        'roleFilter' => [
+            'before' => [
+                'client/*'
+            ]
+        ],
     ];
 }

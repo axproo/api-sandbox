@@ -2,16 +2,20 @@
 
 namespace App\Controllers\Auth;
 
+use App\Libraries\FormStatic;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
 class Otp extends ResourceController
 {
     protected $otp;
+    protected $crud;
 
     public function __construct() {
         $this->otp = service('otpService');
+        $this->crud = service('crudService');
     }
+
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -23,70 +27,39 @@ class Otp extends ResourceController
     }
 
     /**
+     * Return an array of ressouce objects, themselves in array format.
+     *
+     * @return void
+     */
+    public function check() {
+        return $this->otp->verified();
+    }
+
+    /**
+     * Return an array of ressouce objects, themselves in array format.
+     *
+     * @return void
+     */
+    public function resend() {
+        return $this->otp->resend();
+    }
+
+    /**
      * Return the properties of a resource object.
      *
      * @param int|string|null $id
      *
      * @return ResponseInterface
      */
-    public function show($id = null)
+    public function code()
     {
-        //
-    }
+        FormStatic::$url = '/otp-check';
 
-    /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
-    public function new()
-    {
-        //
-    }
-
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function update($id = null)
-    {
-        //
-    }
-
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function delete($id = null)
-    {
-        //
+        return $this->crud->new(['email','code'], [
+            'email' => ['type' => 'hidden'],
+            'code' => [
+                'form_group' => 'row my-4 g-1 text-center'
+            ]
+        ]);
     }
 }

@@ -20,6 +20,72 @@ use CodeIgniter\Config\BaseService;
 class Services extends BaseService
 {
 
+    public static function tenantService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('tenantService');
+        }
+
+        $request = service('request');
+        return new \App\Services\TenantService($request);
+    }
+
+
+    public static function solutionsService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('solutionsService');
+        }
+
+        $request = service('request');
+        return new \App\Services\SolutionsService($request);
+    }
+
+
+    public static function accessService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('accessService');
+        }
+
+        $request = service('request');
+        return new \App\Services\AccessService($request);
+    }
+
+
+    public static function rulesService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('rulesService');
+        }
+
+        $request = service('request');
+        return new \App\Services\RulesService($request);
+    }
+
+
+    public static function baseService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('baseService');
+        }
+
+        $request = service('request');
+        return new \App\Services\BaseService($request);
+    }
+
+
+    public static function crudService(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('crudService');
+        }
+
+        $request = service('request');
+        return new \App\Services\CrudService($request);
+    }
+
+
     public static function alertService(bool $getShared = true)
     {
         if ($getShared) {

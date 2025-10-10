@@ -45,6 +45,9 @@ abstract class BaseForm
             $field['is_read_only']  = filter_var($field['is_read_only'], FILTER_VALIDATE_BOOLEAN);
             $field['option_values'] = $this->selectOptions($field, $items);
 
+            if (isset($overrides[$field['name']]) && is_array($overrides[$field['name']])) {
+                $field = array_merge($field, $overrides[$field['name']]);
+            }
             $requestedFields[$key] = $field;
         }
         return $requestedFields;

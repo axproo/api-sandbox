@@ -8,15 +8,44 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('home', 'Home::index');
 
+/**
+ * @var RouteCollection $routes Login & Logout
+ */
 $routes->get('login', 'Auth\Login::index');
 $routes->post('login', 'Auth\Login::signin');
 $routes->get('verify', 'Auth\Login::verify');
+$routes->get('me', 'Auth\Login::me');
+$routes->post('logout', 'Auth\Login::logout');
+
+/**
+ * @var RouteCollection $routes OTP
+ */
 $routes->post('generate', 'Auth\Otp::generate');
 $routes->get('code', 'Auth\Otp::code');
+$routes->post('otp-check', 'Auth\Otp::check');
+$routes->post('otp-resend', 'Auth\Otp::resend');
 
+/**
+ * @var RouteCollection $routes Groupe UI
+ */
 $routes->group('ui', function ($routes) {
     $routes->get('buttons', 'Ui\Buttons::index');
     $routes->get('alerts', 'Ui\Alerts::index');
+    $routes->get('services', 'Ui\Services::index');
+});
+
+/**
+ * @var RouteCollection $routes MSP
+ */
+$routes->group('msp', function ($routes) {
+    $routes->get('panel', 'Msp::index');
+});
+
+/**
+ * @var RouteCollection $routes Customers
+ */
+$routes->group('client', function ($routes) {
+    $routes->get('account', 'Client\Account::index');
 });
 
 // Gérer toutes les requêtes OPTIONS pour CORS

@@ -1,85 +1,94 @@
-<?php
+<?php 
 namespace App\Services;
 
 use App\Models\OtpModel;
-use CodeIgniter\HTTP\IncomingRequest;
-use Config\Services;
+use CodeIgniter\I18n\Time;
 use Config\Validation\AuthConfig;
 
-class OtpService
+class OtpService extends BaseService
 {
-    protected IncomingRequest $request;
-    protected $validate;
-    protected $validation;
-
     protected $model;
-    protected $email;
-    protected $code;
-    protected $title;
+    protected $validate;
 
-    public function __construct(IncomingRequest $request)
-    {
-        $this->request = $request;
-        $this->validate = new AuthConfig();
-        $this->validation = Services::validation();
-
+    public function __construct($request) {
+        parent::__construct($request);
         $this->model = new OtpModel();
-        $this->email = service('mailerService');
+
+        $this->validate = new AuthConfig();
     }
 
     public function generate() {
-        $data = $this->request->getVar();
+        $data = $this->get_data_from_post();
 
-        // Validation du formulaire
-        if (!$this->validation->setRules($this->validate->otp)->run($this->get_data_from_post())) {
-            return apiResponse(403, $this->validation->getErrors());
+        // Validation des données
+        if (!$this->validate($this->validate->otp)) {
+            return $this->respondError($this->validation->getErrors());
+        }
+        $user = UserService::getUserByEmail($data['email']);
+        $user->code = $this->generateOtp($this->model, $user->id);
+
+        $this->title = lang('Message.token.otp.verify');
+        $this->sendEmail($user->email, 'emails/active_account', $this->setDataForEmail($user));
+
+        return $this->respondSuccess(lang('Message.email.sent'), [
+            'email' => $user->email,
+            'redirect' => $data['redirect'] ?? '/verify/2FA'
+        ]);
+    }
+
+    public function resend() {
+        $data = $this->get_data_from_post();
+        
+        $user = UserService::getUserByEmail($data['email']);
+
+        // Vérification du délai anti-abus
+        if (!$this->canResend($this->model, $user->id)) {
+            return $this->respondError(lang('Auth.failed.otp.wait_before_resend', ['min' => 5]), 429, [
+                'retry_after' => 5
+            ]);
         }
 
-        // Vérification de l'utilisateur
-        $user = UserService::getUserByEmail($data->email);
+        if ($user->status === 'active') {
+            return $this->respondError(lang('Auth.failed.account.active'), 401);
+        }
+        $user->code = $this->generateOtp($this->model, $user->id);
 
-        // Suppression des OTP existants + création d'un nouveau
-        $this->model->where('user_id', $user->id)->delete();
-        $this->save_otp($user);
-
-        // Envoi de mail au user
         $this->title = lang('Message.token.otp.verify');
-        $this->email->send(
-            $user->email,
-            $this->title,
-            'emails/active_account',
-            $this->setData($user)
-        );
-        $protocol = config('Email')->protocol;
+        $this->sendEmail($user->email, 'emails/active_account', $this->setDataForEmail($user));
 
-        return apiResponse(200, lang('Email.sent', [$protocol]), [
+        return $this->respondSuccess(lang('Message.email.sent'), [
             'email' => $user->email,
-            'redirect' => $data->redirect ?? '/v1/oauth/verify'
+            'redirect' => $data['redirect'] ?? '/verify/2FA'
         ]);
     }
 
-    protected function save_otp($user) {
-        $this->code = generateCode();
+    public function verified() {
+        $data = $this->get_data_from_post();
 
-        $this->model->save([
-            'user_id' => $user->id,
-            'otp_code' => $this->code,
-            'expires_at' => generateTime()
+        // Validation du formulaire
+        if (!$this->validate($this->validate->code)) {
+            return $this->respondError($this->validation->getErrors());
+        }
+
+        $user = UserService::getUserByEmail($data['email']);
+        if ($user->status !== 'pending' && $user->email_verified === true) {
+            return $this->respondError(lang('Auth.failed.account.active'), 401);
+        }
+        $this->checkOtp($this->model, $user->id, $data['code']);
+
+        $user->status = 'active';
+        $user->email_verified = true;
+        $user->email_verified_at = Time::now();
+
+        UserService::updateUserData($user);
+        $this->deleteOtp($this->model, $user->id);
+
+        $this->title = lang('Message.token.otp.active_account');
+        $this->sendEmail($user->email, 'emails/verify', $this->setDataForEmail($user, ['link' => '/']));
+
+        return $this->respondSuccess(lang('Message.email.active'), [
+            'email' => $user->email,
+            'redirect' => $data['redirect'] ?? '/'
         ]);
-    }
-
-    protected function setData(object $user, array $overrides = []) : array {
-        return array_merge([
-            'title' => $this->title,
-            'name' => trim("{$user->first_name} {$user->last_name}"),
-            'code' => $this->code,
-            'copyright' => lang('Message.copyright.title'),
-            'submessage' => 'Ce message a été envoyé automatiquement, veuillez ne pas y répondre',
-            'link' => ''
-        ], $overrides);
-    }
-
-    protected function get_data_from_post() {
-        return (array) $this->request->getVar();
     }
 }

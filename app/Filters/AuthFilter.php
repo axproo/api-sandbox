@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Services\AccessService;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -56,17 +57,17 @@ class AuthFilter implements FilterInterface
             $decoded = JWT::decode($token, new Key($key, 'HS256'));
             $data = $decoded->data;
 
-            // if (isset($data->)) {
-            //     # code...
-            // }
-            return apiResponse(200, lang('Message.token.found'));
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+            if (isset($data->twofa_pending) && $data->twofa_pending === true) {
+                return apiResponse(401, lang('Twofactor.failed.verify'));
+            }
 
-        return apiResponse(200, 'JWT', [
-            'header' => $token
-        ]);
+            if (!isset($data->role)) {
+                return apiResponse(401, lang('Message.token.failed.role'));
+            }
+            AccessService::set($data);
+        } catch (\Throwable $th) {
+            return $this->unauthorizedResponse("Access_denied!" . lang('Message.token.invalid'));
+        }
     }
 
     /**

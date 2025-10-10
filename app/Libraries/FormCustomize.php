@@ -7,6 +7,7 @@ class FormCustomize
 {
     protected static ?FormStatic $static = null;
     protected static array $items = [];
+    protected static array $overrides = [];
     
     protected static function init() : void {
         if (self::$static === null) {
@@ -18,11 +19,15 @@ class FormCustomize
         self::$items = $items;
     }
 
+    public static function setOverrides($overrides) : void {
+        self::$overrides = $overrides;
+    }
+
     public static function render(string $type = 'static') {
         self::init();
         
         return match ($type) {
-            'static'    => self::$static->render(self::$items),
+            'static'    => self::$static->render(self::$items, self::$overrides),
             default     => throw new \InvalidArgumentException(lang('Message.forms.failed.type', [
                 'type' => $type
             ]))

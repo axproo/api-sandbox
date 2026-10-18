@@ -3,6 +3,7 @@
 namespace App\Controllers\Auth;
 
 use App\Libraries\FormStatic;
+use Axproo\Auth\Services\AuthService;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -28,6 +29,8 @@ class Login extends ResourceController
     }
     
     public function signin() {
+        // $auth = new AuthService();
+        // return $auth->login($this->get_data_from_post());
         return $this->auth->signin();
     }
 
@@ -44,5 +47,9 @@ class Login extends ResourceController
         $this->auth->setcookie('', -3000);
         $this->response->setHeader('Clear-Site-Data', '"cookies"');
         return apiResponse(200, lang('Auth.success.logout'));
+    }
+
+    protected function get_data_from_post() {
+        return (array) $this->request->getVar();
     }
 }

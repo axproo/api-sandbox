@@ -29,6 +29,7 @@ jobs:
           source: ./               # Dossier local à déployer
           rm: false
           overwrite: true
+          strip_components: 1
           debug: true
           exclude: |
             **/.git*
